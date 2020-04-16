@@ -9,11 +9,11 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         details = response.xpath("//*[@class='product_pod']")  
         for detail in details:
-            Book_Title = detail.xpath(".//h3/a/@title").extract_first() 
-            Price = detail.xpath(".//*[@class ='price_color']/text()").extract_first()  
-            yield {'Book_Title': Book_Title ,'Price' : Price}
-        next_url = response.xpath("//*[@class='next']/a/@href").extract_first()   
-        abs_url = response.urljoin(next_url)
-        yield scrapy.Request(abs_url)
+            Book_Title = detail.xpath(".//h3/a/@title").extract_first()#Extracting book title 
+            Price = detail.xpath(".//*[@class ='price_color']/text()").extract_first()# Extracting price of the book  
+            yield {'Book_Title': Book_Title ,'Price' : Price}# Yield the values in dictionary format
+        next_url = response.xpath("//*[@class='next']/a/@href").extract_first()# url to navigate to next webpage   
+        abs_url = response.urljoin(next_url)# concat main url with refrence url i.e "http://books.toscrape.com/" + "catalogue/page-2.html"
+        yield scrapy.Request(abs_url)# Request to parse the next url details. Call parse().
 
 
